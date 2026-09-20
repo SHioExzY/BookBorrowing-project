@@ -9,7 +9,7 @@ st.set_page_config(
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
-"""
+""",
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     page_title="Library Book Borrowing System",
     page_icon="📚",
