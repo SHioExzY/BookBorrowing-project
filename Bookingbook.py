@@ -3,19 +3,18 @@ from datetime import datetime
 
 # ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
 st.set_page_config(
-    hide_streamlit_style = """
+    page_title="Library Book Borrowing System",
+    page_icon="📚",
+    layout="centered"
+)
+ide_streamlit_style = """
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
-""",
+"""
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-    page_title="Library Book Borrowing System",
-    page_icon="📚",
-    layout="centered"
-)
-
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
 
