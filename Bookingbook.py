@@ -7,14 +7,15 @@ st.set_page_config(
     page_icon="📚",
     layout="centered"
 )
-# ซ่อนปุ่มบน Header ให้เหลือเฉพาะจุด 3 จุดขวาสุด
-st.markdown("""
+# ซ่อนแถบเมนูและ Header ด้านบนของ Streamlit
+hide_streamlit_style = """
 <style>
-    header [data-testid="stToolbar"] > *:not(:last-child) {
-        display: none !important;
-    }
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
 </style>
-""", unsafe_allow_html=True)
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
 
