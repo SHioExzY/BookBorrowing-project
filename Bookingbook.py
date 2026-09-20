@@ -14,7 +14,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.set_page_config(
     page_title="Library Book Borrowing System",
     page_icon="📚",
-    layout="centered"
+    layout="centered",
     # สไตล์ตกแต่งเว็บให้มีความทันสมัยพรีเมียมสไตล์ Apple / Modern UI
 apple_style = """
 <style>
