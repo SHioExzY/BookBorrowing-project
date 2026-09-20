@@ -1,19 +1,53 @@
 import streamlit as st
 from datetime import datetime
 
-# ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
+# ตั้งค่าหน้าเว็บ
 st.set_page_config(
-    hide_streamlit_style = """
-<style>
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     page_title="Library Book Borrowing System",
     page_icon="📚",
     layout="centered"
 )
+
+# สไตล์ตกแต่งเว็บและซ่อนปุ่มแถบเครื่องมือด้านบน (เหลือเฉพาะจุด 3 จุดขวาสุด)
+apple_style = """
+<style>
+    html, body, [class*="css"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    /* ซ่อนปุ่ม Share, Star, ดินสอ, GitHub และแสดงไว้เฉพาะจุด 3 จุด */
+    header [data-testid="stToolbar"] > *:not(:last-child) {
+        display: none !important;
+    }
+
+    div.stForm {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    
+    .stButton>button {
+        border-radius: 12px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        border-color: #0071e3;
+        box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
+    }
+
+    [data-testid="stSidebar"] input {
+        pointer-events: none;
+    }
+</style>
+"""
+st.markdown(apple_style, unsafe_allow_html=True)
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
 
