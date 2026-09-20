@@ -3,6 +3,13 @@ from datetime import datetime
 
 # ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
 st.set_page_config(
+    hide_streamlit_style = """
+<style>
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     page_title="Library Book Borrowing System",
     page_icon="📚",
     layout="centered"
