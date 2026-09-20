@@ -7,14 +7,6 @@ st.set_page_config(
     page_icon="📚",
     layout="centered"
 )
-ide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
 
