@@ -10,21 +10,19 @@ header {visibility: hidden;}
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-# ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
 st.set_page_config(
     page_title="Library Book Borrowing System",
     page_icon="📚",
-    layout="centered",
-    # สไตล์ตกแต่งเว็บให้มีความทันสมัยพรีเมียมสไตล์ Apple / Modern UI
+    layout="centered"
+)
+
+# สไตล์ตกแต่งเว็บแบบ Modern / Apple UI และซ่อนแถบ Header ด้านบน
 apple_style = """
 <style>
-    /* ปรับฟอนต์ภาพรวมให้ดูสะอาดตาและทันสมัยขึ้น */
     html, body, [class*="css"] {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-
-    /* เอฟเฟกต์กล่องข้อความ/ฟอร์มแบบกระจกฝ้า (Glassmorphism) */
-    div.stForm, .st-emotion-cache-1wivap2 {
+    div.stForm {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -32,30 +30,27 @@ apple_style = """
         padding: 20px;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
-
-    /* ปรับแต่งปุ่มกดให้มีความโค้งมนและเอฟเฟกต์ตอนชี้เมาส์ (Hover) */
     .stButton>button {
         border-radius: 12px;
         font-weight: 600;
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
     }
-    
     .stButton>button:hover {
         transform: translateY(-2px);
         border-color: #0071e3;
         box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
     }
-
-    /* ปรับแต่งกล่องแจ้งเตือน (Info/Success/Error) ให้โค้งมนสวยงาม */
     .stAlert {
         border-radius: 12px;
         border: none;
     }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
 </style>
 """
 st.markdown(apple_style, unsafe_allow_html=True)
-)
 
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
