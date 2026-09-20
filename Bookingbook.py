@@ -3,6 +3,14 @@ from datetime import datetime
 
 # ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
 st.set_page_config(
+    hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     page_title="Library Book Borrowing System",
     page_icon="📚",
     layout="centered"
@@ -85,7 +93,7 @@ if menu == "1. ตรวจสอบหนังสือและยืม":
         st.write("---")
         borrower_name = st.text_input("ชื่อผู้ยืมหนังสือ:")
         selected_id = st.text_input("กรอกรหัสหนังสือที่ต้องการยืม (เช่น B001):")
-        borrow_days = st.number_input("จำนวนวันที่ต้องการยืม (กำหนดคืนภายใน 7 วัน):", min_value=1, max_value=30, value=7)
+        borrow_days = st.number_input("จำนวนวันที่ต้องการยืม (กำหนดคืนภายใน 7 วัน):", min_value=1, max_value=1000000, value=7)
         
         submit_borrow = st.form_submit_button("ยืนยันการยืมหนังสือ")
         
@@ -119,7 +127,7 @@ elif menu == "2. คืนหนังสือและคำนวณค่า
             borrower_list = [r[0] + " (" + r[2] + ")" for r in st.session_state.borrow_records]
             selected_record = st.selectbox("เลือกรายการที่ต้องการคืน:", borrower_list)
             
-            actual_return_days = st.number_input("จำนวนวันที่ผู้ใช้ถือครองหนังสือจริง (วัน):", min_value=1, max_value=60, value=7)
+            actual_return_days = st.number_input("จำนวนวันที่ผู้ใช้ถือครองหนังสือจริง (วัน):", min_value=1, max_value=1000000, value=7)
             
             submit_return = st.form_submit_button("คำนวณและคืนหนังสือ")
             
