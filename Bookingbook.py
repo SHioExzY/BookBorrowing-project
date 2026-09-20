@@ -9,7 +9,43 @@ st.set_page_config(
 )
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
-
+apple_style = """
+[data-testid="stSidebar"] input {
+    pointer-events: none;
+}
+<style>
+    html, body, [class*="css"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    div.stForm {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    .stButton>button {
+        border-radius: 12px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        border-color: #0071e3;
+        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+    }
+    .stAlert {
+        border-radius: 12px;
+        border: none;
+    }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+</style>
+"""
+st.markdown(apple_style, unsafe_allow_html=True)
 # 1. DATABASE & NESTED LIST (เก็บข้อมูลหนังสือ และประวัติการยืม)
 if "books_db" not in st.session_state:
     # Nested List: [รหัสหนังสือ, ชื่อหนังสือ, หมวดหมู่, จำนวนคงเหลือ]
@@ -25,7 +61,7 @@ if "borrow_records" not in st.session_state:
     st.session_state.borrow_records = []
 
 # เมนูหลักทาง Sidebar (Selection Structure จุดที่ 1)
-menu = st.sidebar.radio("เลือกเมนูการทำงาน", [
+menu = st.sidebar.selectbox("เลือกเมนูการทำงาน", [
     "1. ตรวจสอบหนังสือและยืม",
     "2. คืนหนังสือและคำนวณค่าปรับ",
     "3. รายการประวัติการยืมทั้งหมด"
