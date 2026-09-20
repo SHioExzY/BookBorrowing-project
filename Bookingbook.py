@@ -1,70 +1,12 @@
 import streamlit as st
 from datetime import datetime
-# ซ่อนแถบเมนูและ Header ด้านบนของ Streamlit
-hide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
+# ตั้งค่าหน้าเว็บให้รองรับ Responsive ทุกขนาดจอ (มือถือและ PC)
 st.set_page_config(
     page_title="Library Book Borrowing System",
     page_icon="📚",
     layout="centered"
 )
-
-# สไตล์ตกแต่งเว็บแบบ Modern / Apple UI และซ่อนแถบ Header ด้านบน
-apple_style = """
-/* เอฟเฟกต์ปุ่มรายการหนังสือตอนเอาเมาส์ไปวางจะมีเงาและยกตัวขึ้นเล็กน้อย */
-div.stButton > button {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-
-div.stButton > button:hover {
-    background-color: rgba(0, 113, 227, 0.15);
-    border-color: #0071e3;
-    box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
-    transform: translateY(-2px);
-}
-<style>
-    html, body, [class*="css"] {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-    div.stForm {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    }
-    .stButton>button {
-        border-radius: 12px;
-        font-weight: 600;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        border-color: #0071e3;
-        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
-    }
-    .stAlert {
-        border-radius: 12px;
-        border: none;
-    }
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-</style>
-"""
-st.markdown(apple_style, unsafe_allow_html=True)
 
 st.title("📚 ระบบยืมสมุดและคำนวณค่าปรับเกินเวลา")
 st.write("ระบบจัดการห้องสมุด ตรวจสอบสถานะหนังสือ และคำนวณค่าปรับอัตโนมัติ")
@@ -135,55 +77,15 @@ if menu == "1. ตรวจสอบหนังสือและยืม":
     st.header("📖 ค้นหาและทำรายการยืมหนังสือ")
     
     st.subheader("รายการหนังสือในห้องสมุด:")
-  elif menu == "1. ตรวจสอบหนังสือและยืม":
-    st.header("📖 ค้นหาและทำรายการยืมหนังสือ")
-    
-    st.subheader("คลิกเลือกหนังสือที่ต้องการยืมจากรายการด้านล่าง:")
-    
-    # สร้างตัวแปรเก็บรหัสหนังสือที่ถูกเลือกชั่วคราว
-    if "selected_book_id" not in st.session_state:
-        st.session_state.selected_book_id = ""
-
-    # Repetition Structure: วนลูปสร้างปุ่มการ์ดหนังสือแต่ละเล่มแทนข้อความธรรมดา
+    # Repetition Structure จุดที่ 3: วนลูปแสดงข้อมูลหนังสือทั้งหมดในรูปแบบตารางย่อย
     for b in st.session_state.books_db:
-        book_label = f"รหัส: {b[0]} | ชื่อ: {b[1]} | หมวดหมู่: {b[2]} | คงเหลือ: {b[3]} เล่ม"
-        # เมื่อคลิกที่การ์ดหนังสือชิ้นไหน ระบบจะบันทึกรหัสหนังสือชิ้นนั้นอัตโนมัติ
-        if st.button(book_label, key=f"book_btn_{b[0]}", use_container_width=True):
-            st.session_state.selected_book_id = b[0]
+        st.info(f"รหัส: **{b[0]}** | ชื่อ: **{b[1]}** | หมวดหมู่: {b[2]} | คงเหลือ: `{b[3]} เล่ม`")
 
-    st.write("---")
-    
-    with st.form("borrow_form"):
-        st.write("📝 **ฟอร์มยืนยันการยืมหนังสือ**")
-        borrower_name = st.text_input("ชื่อผู้ยืมหนังสือ:")
-        
-        # ช่องกรอกรหัสหนังสือจะดึงค่าจากปุ่มที่เราคลิกมาใส่ให้อัตโนมัติ (หรือพิมพ์เองก็ได้)
-        selected_id = st.text_input("รหัสหนังสือที่เลือก:", value=st.session_state.selected_book_id)
-        
-        borrow_days = st.number_input("จำนวนวันที่ต้องการยืม (กำหนดคืนภายใน 7 วัน):", min_value=1, value=7)
-        
-        submit_borrow = st.form_submit_button("ยืนยันการยืมหนังสือ")
-        
-        if submit_borrow:
-            if borrower_name.strip() == "" or selected_id.strip() == "":
-                st.error("กรุณากรอกชื่อผู้ยืมและเลือกหนังสือจากด้านบน")
-            else:
-                is_available, book_name = check_book_stock(selected_id, st.session_state.books_db)
-                if is_available:
-                    for book in st.session_state.books_db:
-                        if book[0].lower() == selected_id.lower():
-                            book[3] -= 1
-                    
-                    st.session_state.borrow_records.append([borrower_name, selected_id.upper(), book_name, borrow_days, 7])
-                    st.success(f"ยืมหนังสือ '{book_name}' สำเร็จ! (กำหนดคืนภายใน {borrow_days} วัน)")
-                    st.session_state.selected_book_id = "" # รีเซ็ตค่าหลังยืมสำเร็จ
-                else:
-                    st.error(f"ไม่สามารถยืมได้: {book_name}")
     with st.form("borrow_form"):
         st.write("---")
         borrower_name = st.text_input("ชื่อผู้ยืมหนังสือ:")
         selected_id = st.text_input("กรอกรหัสหนังสือที่ต้องการยืม (เช่น B001):")
-        borrow_days = st.number_input("จำนวนวันที่ต้องการยืม (กำหนดคืนภายใน 7 วัน):", min_value=1, max_value=10000, value=7)
+        borrow_days = st.number_input("จำนวนวันที่ต้องการยืม (กำหนดคืนภายใน 7 วัน):", min_value=1, max_value=30, value=7)
         
         submit_borrow = st.form_submit_button("ยืนยันการยืมหนังสือ")
         
@@ -217,7 +119,7 @@ elif menu == "2. คืนหนังสือและคำนวณค่า
             borrower_list = [r[0] + " (" + r[2] + ")" for r in st.session_state.borrow_records]
             selected_record = st.selectbox("เลือกรายการที่ต้องการคืน:", borrower_list)
             
-            actual_return_days = st.number_input("จำนวนวันที่ผู้ใช้ถือครองหนังสือจริง (วัน):", min_value=1, max_value=10000, value=7)
+            actual_return_days = st.number_input("จำนวนวันที่ผู้ใช้ถือครองหนังสือจริง (วัน):", min_value=1, max_value=60, value=7)
             
             submit_return = st.form_submit_button("คำนวณและคืนหนังสือ")
             
